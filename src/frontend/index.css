@@ -1,0 +1,453 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
+
+    /* OKLCH semantic tokens - Dark mode portfolio theme */
+    --background: 0.09 0 0;
+    --foreground: 0.94 0 0;
+    --card: 0.12 0 0;
+    --card-foreground: 0.94 0 0;
+    --popover: 0.12 0 0;
+    --popover-foreground: 0.94 0 0;
+    --primary: 0.83 0.18 151;
+    --primary-foreground: 0.1 0 0;
+    --secondary: 0.18 0 0;
+    --secondary-foreground: 0.94 0 0;
+    --muted: 0.16 0 0;
+    --muted-foreground: 0.62 0 0;
+    --accent: 0.83 0.18 151;
+    --accent-foreground: 0.1 0 0;
+    --destructive: 0.577 0.245 27.325;
+    --destructive-foreground: 0.985 0 0;
+    --border: 0.22 0.02 151;
+    --input: 0.18 0.01 151;
+    --ring: 0.83 0.18 151;
+    --chart-1: 0.83 0.18 151;
+    --chart-2: 0.7 0.15 151;
+    --chart-3: 0.55 0.12 151;
+    --chart-4: 0.627 0.265 303.9;
+    --chart-5: 0.645 0.246 16.439;
+    --sidebar: 0.12 0 0;
+    --sidebar-foreground: 0.94 0 0;
+    --sidebar-primary: 0.83 0.18 151;
+    --sidebar-primary-foreground: 0.1 0 0;
+    --sidebar-accent: 0.16 0 0;
+    --sidebar-accent-foreground: 0.94 0 0;
+    --sidebar-border: 0.22 0.02 151;
+    --sidebar-ring: 0.83 0.18 151;
+
+    /* Portfolio custom tokens */
+    --neon: #00ff88;
+    --neon-dim: rgba(0, 255, 136, 0.12);
+    --neon-glow: rgba(0, 255, 136, 0.3);
+    --neon-glow-strong: rgba(0, 255, 136, 0.55);
+    --bg-base: #0d0d0d;
+    --bg-card: rgba(255, 255, 255, 0.04);
+    --text-primary: #f0f0f0;
+    --text-secondary: #a0a0a0;
+    --glass-border: rgba(0, 255, 136, 0.12);
+  }
+
+  .dark {
+    --background: 0.09 0 0;
+    --foreground: 0.94 0 0;
+    --card: 0.12 0 0;
+    --card-foreground: 0.94 0 0;
+    --popover: 0.12 0 0;
+    --popover-foreground: 0.94 0 0;
+    --primary: 0.83 0.18 151;
+    --primary-foreground: 0.1 0 0;
+    --secondary: 0.18 0 0;
+    --secondary-foreground: 0.94 0 0;
+    --muted: 0.16 0 0;
+    --muted-foreground: 0.62 0 0;
+    --accent: 0.83 0.18 151;
+    --accent-foreground: 0.1 0 0;
+    --destructive: 0.704 0.191 22.216;
+    --destructive-foreground: 0.205 0 0;
+    --border: 0.22 0.02 151;
+    --input: 0.18 0.01 151;
+    --ring: 0.83 0.18 151;
+  }
+
+  * {
+    @apply border-border;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: var(--bg-base);
+    color: var(--text-primary);
+    font-family: 'Outfit', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Custom cursor - hide default on desktop */
+  @media (hover: hover) and (pointer: fine) {
+    * {
+      cursor: none !important;
+    }
+  }
+
+  /* Scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--bg-base);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--neon-glow);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--neon);
+  }
+}
+
+/* ============ KEYFRAME ANIMATIONS ============ */
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-14px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px var(--neon-glow), 0 0 40px var(--neon-dim); }
+  50% { box-shadow: 0 0 50px var(--neon-glow-strong), 0 0 80px var(--neon-glow); }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes bounce-in {
+  0% { transform: scale(0.8); opacity: 0; }
+  60% { transform: scale(1.05); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes typing-cursor {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes loader-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes loader-fade-out {
+  0% { opacity: 1; visibility: visible; }
+  100% { opacity: 0; visibility: hidden; }
+}
+
+@keyframes particle-float {
+  0% { transform: translateY(0) scale(1); opacity: 0.7; }
+  100% { transform: translateY(-120vh) scale(0.2); opacity: 0; }
+}
+
+@keyframes slide-in-left {
+  0% { transform: translateX(-60px); opacity: 0; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slide-in-right {
+  0% { transform: translateX(60px); opacity: 0; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes fade-in-up {
+  0% { transform: translateY(30px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes fade-in {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes chevron-bounce {
+  0%, 100% { transform: translateY(0) translateX(-50%); }
+  50% { transform: translateY(8px) translateX(-50%); }
+}
+
+@keyframes scroll-progress {
+  from { width: 0%; }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+@keyframes matrix-fall {
+  0% { transform: translateY(-100vh); opacity: 1; }
+  100% { transform: translateY(100vh); opacity: 0; }
+}
+
+@keyframes scale-in {
+  0% { transform: scale(0.9); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes ripple {
+  0% { transform: scale(0); opacity: 1; }
+  100% { transform: scale(4); opacity: 0; }
+}
+
+/* ============ GLOBAL UTILITY CLASSES ============ */
+
+.section-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.section-padding {
+  padding: 100px 0;
+}
+
+.section-heading {
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  position: relative;
+  display: inline-block;
+  letter-spacing: -0.02em;
+}
+
+.section-heading::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--neon), transparent);
+  border-radius: 2px;
+}
+
+.glass-card {
+  background: var(--bg-card);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+  border-color: rgba(0, 255, 136, 0.3);
+  box-shadow: 0 0 25px var(--neon-dim), 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.neon-text {
+  color: var(--neon);
+}
+
+.neon-border {
+  border-color: var(--neon);
+  box-shadow: 0 0 15px var(--neon-glow);
+}
+
+.btn-neon {
+  background: var(--neon);
+  color: #0d0d0d;
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 28px;
+  cursor: none;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+}
+
+.btn-neon:hover {
+  background: #00e87a;
+  box-shadow: 0 0 25px var(--neon-glow), 0 0 50px var(--neon-dim);
+  transform: translateY(-2px);
+}
+
+.btn-outline-neon {
+  background: transparent;
+  color: var(--neon);
+  border: 1px solid var(--neon);
+  border-radius: 8px;
+  padding: 12px 28px;
+  cursor: none;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.btn-outline-neon:hover {
+  background: var(--neon-dim);
+  box-shadow: 0 0 20px var(--neon-glow);
+  transform: translateY(-2px);
+}
+
+.btn-ghost-neon {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 12px 28px;
+  cursor: none;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.btn-ghost-neon:hover {
+  color: var(--text-primary);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+}
+
+/* Scroll reveal animation states */
+.reveal-hidden {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Focus visible ring */
+:focus-visible {
+  outline: 2px solid var(--neon);
+  outline-offset: 3px;
+}
+
+/* Proficiency bar animation */
+.proficiency-bar {
+  height: 6px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.proficiency-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--neon), #00c864);
+  border-radius: 3px;
+  transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Tech badge */
+.tech-badge {
+  background: rgba(0, 255, 136, 0.08);
+  border: 1px solid rgba(0, 255, 136, 0.2);
+  color: var(--neon);
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+/* Animation classes */
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+.animate-slide-left {
+  animation: slide-in-left 0.8s ease forwards;
+}
+
+.animate-slide-right {
+  animation: slide-in-right 0.8s ease forwards;
+}
+
+.animate-fade-up {
+  animation: fade-in-up 0.6s ease forwards;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.5s ease forwards;
+}
+
+.animate-bounce-in {
+  animation: bounce-in 0.5s ease forwards;
+}
+
+/* Typing cursor blink */
+.typing-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1.2em;
+  background: var(--neon);
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  animation: typing-cursor 0.9s ease-in-out infinite;
+}
+
+/* Timeline line */
+.timeline-line {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, transparent, var(--neon), transparent);
+  transform: translateX(-50%);
+}
+
+.timeline-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--neon);
+  box-shadow: 0 0 12px var(--neon-glow), 0 0 24px var(--neon-dim);
+  flex-shrink: 0;
+}
+
+/* Contact form input focus */
+.form-input-custom {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  border-radius: 8px;
+  padding: 12px 16px;
+  width: 100%;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.form-input-custom::placeholder {
+  color: var(--text-secondary);
+}
+
+.form-input-custom:focus {
+  border-color: var(--neon);
+  box-shadow: 0 0 15px var(--neon-dim);
+  background: rgba(0, 255, 136, 0.03);
+}
+
+/* Admin table row */
+.admin-row-unread {
+  background: rgba(0, 255, 136, 0.04);
+}
