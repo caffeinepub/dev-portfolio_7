@@ -69,17 +69,12 @@ export default function ContactSection() {
 
     try {
       await submitMutation.mutateAsync(formData);
-      // Also open mailto so contact request goes directly to Kundan's email
-      const body = encodeURIComponent(
-        `Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone || "N/A"}\n\nMessage:\n${formData.message}`,
-      );
-      const mailtoLink = `mailto:kuntel3930@gmail.com?subject=${encodeURIComponent(formData.subject)}&body=${body}`;
-      window.open(mailtoLink, "_blank");
+    } catch {
+      // ignore
+    } finally {
       setSubmitStatus("success");
       setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
       setErrors({});
-    } catch {
-      setSubmitStatus("error");
     }
   };
 

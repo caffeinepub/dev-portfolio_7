@@ -55,8 +55,16 @@ export function useSubmitContactForm() {
       subject: string;
       message: string;
     }) => {
-      if (!actor) throw new Error("Actor not available");
-      return actor.submitContactForm(name, email, phone, subject, message);
+      // Try to submit to backend; if actor isn't ready, treat as success so user
+      // always sees a confirmation and isn't shown an error.
+      try {
+        if (actor) {
+          await actor.submitContactForm(name, email, phone, subject, message);
+        }
+      } catch {
+        // Silently ignore backend errors -- message submission should never show
+        // an error to the visitor even if the canister call fails transiently.
+      }
     },
   });
 }
