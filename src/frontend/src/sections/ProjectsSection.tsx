@@ -1,10 +1,11 @@
 import { useNavigate } from "@tanstack/react-router";
-import { ArrowRight, ExternalLink, Github } from "lucide-react";
-import { projects } from "../data/portfolio";
+import { ArrowRight, ExternalLink, FolderOpen, Github } from "lucide-react";
+import { useProjects } from "../hooks/usePortfolioData";
 import { useScrollReveal } from "../hooks/useScrollReveal";
 
 export default function ProjectsSection() {
   const navigate = useNavigate();
+  const { projects, loading } = useProjects();
   const [headingRef, headingVisible] = useScrollReveal(0.1);
   const [gridRef, gridVisible] = useScrollReveal(0.05);
 
@@ -41,6 +42,49 @@ export default function ProjectsSection() {
             problem-solving approach.
           </p>
         </div>
+
+        {/* Loading skeleton */}
+        {loading && (
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+              gap: "24px",
+            }}
+          >
+            {[1, 2, 3].map((i) => (
+              <div
+                key={i}
+                className="glass-card"
+                style={{
+                  height: "340px",
+                  animation: "pulse 1.5s ease-in-out infinite",
+                  opacity: 0.5,
+                }}
+              />
+            ))}
+          </div>
+        )}
+
+        {/* Empty state */}
+        {!loading && projects.length === 0 && (
+          <div
+            data-ocid="projects.empty_state"
+            style={{
+              textAlign: "center",
+              padding: "80px 20px",
+              color: "var(--text-secondary)",
+            }}
+          >
+            <FolderOpen
+              size={48}
+              style={{ color: "rgba(0,255,136,0.3)", marginBottom: "16px" }}
+            />
+            <p style={{ fontSize: "0.875rem" }}>
+              No projects yet. Add projects in the admin panel.
+            </p>
+          </div>
+        )}
 
         <div
           ref={gridRef}

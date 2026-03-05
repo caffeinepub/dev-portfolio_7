@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { ContactMessage } from "../backend.d";
+import { storeSessionParameter } from "../utils/urlParams";
 import { useActor } from "./useActor";
 
 export function useIsAdmin() {
@@ -86,6 +87,23 @@ export function useDeleteMessage() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["allMessages"] });
       queryClient.invalidateQueries({ queryKey: ["unreadCount"] });
+    },
+  });
+}
+
+export function useClaimAdmin() {
+  const { actor } = useActor();
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (token: string) => {
+      if (!actor) throw new Error("Actor not available");
+      // Store the token in session so useActor picks it up on next actor creation
+      storeSessionParameter("caffeineAdminToken", token);
+      await actor._initializeAccessControlWithSecret(token);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["isAdmin"] });
+      queryClient.invalidateQueries({ queryKey: ["actor"] });
     },
   });
 }

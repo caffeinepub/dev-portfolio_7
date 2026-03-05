@@ -8,14 +8,15 @@ import {
   Zap,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { projects } from "../data/portfolio";
+import { useProjects } from "../hooks/usePortfolioData";
 
 export default function ProjectDetail() {
   const { id } = useParams({ from: "/project/$id" });
   const navigate = useNavigate();
   const [mounted, setMounted] = useState(false);
+  const { projects } = useProjects();
 
-  const project = projects.find((p) => p.id === id);
+  const project = projects.find((p) => p.id === id || p.id === `project-${id}`);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: intentionally reset on id change
   useEffect(() => {

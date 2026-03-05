@@ -1,5 +1,5 @@
 import { Briefcase, Calendar, Star } from "lucide-react";
-import { experiences } from "../data/portfolio";
+import { useExperiences } from "../hooks/usePortfolioData";
 import { useScrollReveal } from "../hooks/useScrollReveal";
 
 interface ExperienceCardProps {
@@ -215,6 +215,7 @@ function ExperienceContent({
 }
 
 export default function ExperienceSection() {
+  const { experiences, loading } = useExperiences();
   const [headingRef, headingVisible] = useScrollReveal(0.1);
 
   return (
@@ -245,6 +246,50 @@ export default function ExperienceSection() {
             My professional journey and the impact I've made along the way.
           </p>
         </div>
+
+        {/* Loading skeleton */}
+        {loading && (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "32px",
+              maxWidth: "900px",
+              margin: "0 auto",
+            }}
+          >
+            {[1, 2].map((i) => (
+              <div
+                key={i}
+                className="glass-card"
+                style={{
+                  height: "180px",
+                  animation: "pulse 1.5s ease-in-out infinite",
+                  opacity: 0.5,
+                }}
+              />
+            ))}
+          </div>
+        )}
+
+        {!loading && experiences.length === 0 && (
+          <div
+            data-ocid="experience.empty_state"
+            style={{
+              textAlign: "center",
+              padding: "60px 20px",
+              color: "var(--text-secondary)",
+            }}
+          >
+            <Briefcase
+              size={44}
+              style={{ color: "rgba(0,255,136,0.3)", marginBottom: "12px" }}
+            />
+            <p style={{ fontSize: "0.875rem" }}>
+              No experience entries yet. Add them in the admin panel.
+            </p>
+          </div>
+        )}
 
         {/* Desktop timeline */}
         <div

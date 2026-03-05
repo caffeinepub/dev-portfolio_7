@@ -1,8 +1,9 @@
 import { Award, ExternalLink } from "lucide-react";
-import { certifications } from "../data/portfolio";
+import { useCertifications } from "../hooks/usePortfolioData";
 import { useScrollReveal } from "../hooks/useScrollReveal";
 
 export default function CertificationsSection() {
+  const { certifications, loading } = useCertifications();
   const [headingRef, headingVisible] = useScrollReveal(0.1);
   const [gridRef, gridVisible] = useScrollReveal(0.05);
 
@@ -38,6 +39,50 @@ export default function CertificationsSection() {
             Verified credentials from industry-recognized platforms.
           </p>
         </div>
+
+        {/* Loading skeleton */}
+        {loading && (
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+              gap: "24px",
+              maxWidth: "960px",
+              margin: "0 auto",
+            }}
+          >
+            {[1, 2].map((i) => (
+              <div
+                key={i}
+                className="glass-card"
+                style={{
+                  height: "220px",
+                  animation: "pulse 1.5s ease-in-out infinite",
+                  opacity: 0.5,
+                }}
+              />
+            ))}
+          </div>
+        )}
+
+        {!loading && certifications.length === 0 && (
+          <div
+            data-ocid="certs.empty_state"
+            style={{
+              textAlign: "center",
+              padding: "60px 20px",
+              color: "var(--text-secondary)",
+            }}
+          >
+            <Award
+              size={44}
+              style={{ color: "rgba(0,255,136,0.3)", marginBottom: "12px" }}
+            />
+            <p style={{ fontSize: "0.875rem" }}>
+              No certifications yet. Add them in the admin panel.
+            </p>
+          </div>
+        )}
 
         <div
           ref={gridRef}

@@ -1,13 +1,13 @@
-import { skills } from "../data/portfolio";
+import { useSkills } from "../hooks/usePortfolioData";
 import { useScrollReveal } from "../hooks/useScrollReveal";
 
-// Duplicate array for seamless marquee loop
-const marqueeSkills = [...skills, ...skills];
-
-// Top 6 skills for proficiency bars
-const topSkills = skills.slice(0, 6);
-
 export default function SkillsSection() {
+  const { skills, loading } = useSkills();
+  // Duplicate array for seamless marquee loop
+  const marqueeSkills = [...skills, ...skills];
+  // Top 6 skills for proficiency bars
+  const topSkills = skills.slice(0, 6);
+
   const [headingRef, headingVisible] = useScrollReveal(0.2);
   const [barsRef, barsVisible] = useScrollReveal(0.2);
 
@@ -45,6 +45,31 @@ export default function SkillsSection() {
             applications.
           </p>
         </div>
+
+        {/* Loading skeleton */}
+        {loading && (
+          <div
+            style={{
+              display: "flex",
+              gap: "16px",
+              overflow: "hidden",
+              marginBottom: "70px",
+            }}
+          >
+            {[1, 2, 3, 4, 5, 6].map((i) => (
+              <div
+                key={i}
+                className="glass-card"
+                style={{
+                  minWidth: "130px",
+                  height: "100px",
+                  animation: "pulse 1.5s ease-in-out infinite",
+                  opacity: 0.5,
+                }}
+              />
+            ))}
+          </div>
+        )}
 
         {/* Marquee */}
         <div
