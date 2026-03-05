@@ -18,7 +18,6 @@ import {
   Trash2,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-import type { ContactMessage } from "../backend.d";
 import type {
   Certification,
   Experience,
@@ -32,6 +31,7 @@ import {
   useSkills,
 } from "../hooks/usePortfolioData";
 import {
+  type LocalContactMessage,
   useAllMessages,
   useDeleteMessage,
   useMarkMessageAsRead,
@@ -470,11 +470,10 @@ function MessagesTab() {
   const { data: unreadCount } = useUnreadCount();
   const markReadMutation = useMarkMessageAsRead();
   const deleteMutation = useDeleteMessage();
-  const [expandedId, setExpandedId] = useState<bigint | null>(null);
+  const [expandedId, setExpandedId] = useState<number | null>(null);
 
-  const formatDate = (timestamp: bigint) => {
-    const ms = Number(timestamp) / 1_000_000;
-    return new Date(ms).toLocaleDateString("en-US", {
+  const formatDate = (timestamp: number) => {
+    return new Date(timestamp).toLocaleDateString("en-US", {
       month: "short",
       day: "numeric",
       year: "numeric",
@@ -604,9 +603,9 @@ function MessagesTab() {
           data-ocid="admin.messages_list"
           style={{ display: "flex", flexDirection: "column", gap: "10px" }}
         >
-          {messages.map((msg: ContactMessage, index: number) => (
+          {messages.map((msg: LocalContactMessage, index: number) => (
             <MessageRow
-              key={msg.id.toString()}
+              key={msg.id}
               msg={msg}
               index={index}
               isExpanded={expandedId === msg.id}
@@ -1922,15 +1921,15 @@ function EmptyState({
   );
 }
 
-// ─── MessageRow (same as before) ──────────────────────────────────
+// ─── MessageRow ───────────────────────────────────────────────────
 interface MessageRowProps {
-  msg: ContactMessage;
+  msg: LocalContactMessage;
   index: number;
   isExpanded: boolean;
   onExpand: () => void;
   onMarkRead: () => void;
   onDelete: () => void;
-  formatDate: (ts: bigint) => string;
+  formatDate: (ts: number) => string;
   isMarkingRead: boolean;
   isDeleting: boolean;
 }
